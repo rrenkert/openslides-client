@@ -137,6 +137,9 @@ export class AuthService {
     public async logout(): Promise<void> {
         this.lifecycleService.shutdown();
         const response = await this.authAdapter.logout();
+        if (response?.message) {
+            location.replace(response.message);
+        }
         if (response?.success) {
             this.authTokenService.setRawAccessToken(null);
         }
